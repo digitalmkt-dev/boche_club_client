@@ -86,23 +86,16 @@ export const GroupBookingSection = () => {
       <span id="group-bookings" className="absolute -top-20" aria-hidden="true" />
       <span id="reservations" className="absolute -top-20" aria-hidden="true" />
 
-      {/* 1. Atmospheric Dark Club Background with GPU Compositor Parallax & Vignettes */}
+      {/* 1. Atmospheric Dark Club Background with Vignettes */}
       <div className="absolute inset-0 z-0 pointer-events-none select-none overflow-clip" aria-hidden="true">
-        {/* Parallax Background Photo */}
-        <div
-          className="group-booking-parallax-bg absolute -top-44 -bottom-44 inset-x-0 w-full h-[calc(100%+352px)] pointer-events-none select-none"
-          style={{ willChange: 'transform', backfaceVisibility: 'hidden' }}
-        >
-          <img
-            src="/images/group-booking/group-booking-bg.webp"
-            alt=""
-            loading="lazy"
-            decoding="async"
-            draggable={false}
-            className="w-full h-full object-cover object-center opacity-60 brightness-[0.65] contrast-[1.08]"
-            style={{ backfaceVisibility: 'hidden', transform: 'translateZ(0)' }}
-          />
-        </div>
+        <img
+          src="/images/group-booking/group-booking-bg.webp"
+          alt=""
+          loading="lazy"
+          decoding="async"
+          draggable={false}
+          className="w-full h-full object-cover object-center opacity-60 brightness-[0.65] contrast-[1.08]"
+        />
 
         {/* Subtle Club Color Accent Wash (Crimson Left + Warm Gold Right) */}
         <div
@@ -117,25 +110,6 @@ export const GroupBookingSection = () => {
         <div className="absolute inset-0 bg-[#08090C]/45 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-[#08090C] via-[#08090C]/20 to-[#08090C] pointer-events-none" />
       </div>
-
-      {/* GPU Compositor Scroll Parallax Keyframes */}
-      <style>{`
-        @keyframes group-booking-parallax {
-          from {
-            transform: translate3d(0, -140px, 0);
-          }
-          to {
-            transform: translate3d(0, 140px, 0);
-          }
-        }
-        @supports (animation-timeline: view()) {
-          .group-booking-parallax-bg {
-            animation: group-booking-parallax linear both;
-            animation-timeline: view();
-            animation-range: entry 0% exit 100%;
-          }
-        }
-      `}</style>
 
       <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
         {/* Section Header */}

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useCallback } from 'react';
+import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { ChevronDown, ArrowRight } from 'lucide-react';
 import { CraftPourIcon, DJLineupsIcon, VIPBoothsIcon, FoodPairingIcon } from './HighlightIcons';
 
@@ -19,6 +19,25 @@ export const Hero = () => {
   const videoRef   = useRef(null);
   const hlsRef     = useRef(null);    // holds the Hls instance
   const srcLoadedRef = useRef('');    // tracks which src is currently loaded
+  const [isVideoReady, setIsVideoReady] = useState(false);
+  const [loaderMounted, setLoaderMounted] = useState(true);
+
+  const markVideoReady = useCallback(() => {
+    setIsVideoReady(true);
+  }, []);
+
+  // Unmount loader overlay cleanly after fade-out transition completes
+  useEffect(() => {
+    if (!isVideoReady) return undefined;
+    const timer = setTimeout(() => setLoaderMounted(false), 750);
+    return () => clearTimeout(timer);
+  }, [isVideoReady]);
+
+  // Safety fallback: never block the page indefinitely if network/autoplay fails
+  useEffect(() => {
+    const fallbackTimer = setTimeout(() => setIsVideoReady(true), 5000);
+    return () => clearTimeout(fallbackTimer);
+  }, []);
 
   /**
    * Loads (or switches) the correct HLS master playlist into the <video> element.
@@ -57,17 +76,25 @@ export const Hero = () => {
       hls.attachMedia(video);
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         video.play().catch(() => {
-          // Autoplay blocked — muted playback should always be allowed;
-          // if still blocked the poster image covers gracefully
+          markVideoReady();
         });
+      });
+      hls.on(Hls.Events.ERROR, (_event, data) => {
+        if (data?.fatal) {
+          markVideoReady();
+        }
       });
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
       // ── Native HLS path (Safari / iOS) ──────────────────────────────────
       video.src = src;
       video.load();
-      video.play().catch(() => {});
+      video.play().catch(() => {
+        markVideoReady();
+      });
+    } else {
+      markVideoReady();
     }
-  }, []);
+  }, [markVideoReady]);
 
   useEffect(() => {
     // Initial load based on current viewport
@@ -100,6 +127,62 @@ export const Hero = () => {
       aria-label="Welcome to Boche Club Bangalore"
       className="relative h-[100dvh] sm:h-screen max-h-screen min-h-[600px] sm:min-h-[620px] flex flex-col justify-between overflow-hidden bg-[#07080B] pt-20 sm:pt-24 pb-2 sm:pb-3"
     >
+      {/* ── Branded Video Preloader Overlay (fades out once hero video is ready) ── */}
+      {loaderMounted && (
+        <div
+          role="status"
+          aria-live="polite"
+          aria-label="Loading Boche Club experience"
+          className={`fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#07080B] transition-opacity duration-700 ease-out ${
+            isVideoReady ? 'opacity-0 pointer-events-none' : 'opacity-100'
+          }`}
+        >
+          {/* Ambient crimson & gold loader glow */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+            <div
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] sm:w-[440px] h-[320px] sm:h-[440px] rounded-full blur-[120px]"
+              style={{
+                background:
+                  'radial-gradient(circle, rgba(255, 23, 68, 0.22) 0%, rgba(245, 184, 46, 0.14) 50%, transparent 75%)',
+              }}
+            />
+          </div>
+
+          <div className="relative z-10 flex flex-col items-center gap-6 px-6">
+            <img
+              src="/club%20log.png"
+              alt="Boche Club"
+              width={860}
+              height={290}
+              loading="eager"
+              fetchPriority="high"
+              draggable={false}
+              className="h-20 sm:h-28 w-auto max-w-[75vw] object-contain animate-pulse drop-shadow-[0_4px_24px_rgba(255,23,68,0.35)]"
+            />
+
+            {/* Sleek neon progress bar */}
+            <div className="w-44 sm:w-52 h-[2px] rounded-full bg-white/10 overflow-hidden">
+              <div className="hero-loader-bar h-full w-1/2 rounded-full bg-gradient-to-r from-[#ff1744] via-[#f5b82e] to-[#ff1744]" />
+            </div>
+
+            <span className="text-[10px] sm:text-xs font-semibold uppercase tracking-[0.35em] text-slate-400">
+              Loading Experience
+            </span>
+          </div>
+
+          <style>{`
+            @keyframes hero-loader-slide {
+              0% { transform: translateX(-120%); }
+              100% { transform: translateX(260%); }
+            }
+            .hero-loader-bar {
+              animation: hero-loader-slide 1.25s ease-in-out infinite;
+              will-change: transform;
+            }
+          `}</style>
+        </div>
+      )}
+
       {/* ── Background Video ───────────────────────────────────────────────── */}
       {/* overflow-hidden clips the video when it exceeds the section bounds */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none" aria-hidden="true">
@@ -110,7 +193,13 @@ export const Hero = () => {
         */}
         <video
           ref={videoRef}
-          className="w-full h-full object-cover object-center"
+          onLoadedData={markVideoReady}
+          onCanPlay={markVideoReady}
+          onPlaying={markVideoReady}
+          onError={markVideoReady}
+          className={`w-full h-full object-cover object-center transition-opacity duration-700 ${
+            isVideoReady ? 'opacity-100' : 'opacity-0'
+          }`}
           autoPlay
           muted
           loop

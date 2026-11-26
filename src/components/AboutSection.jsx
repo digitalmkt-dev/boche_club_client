@@ -23,7 +23,6 @@ const BEAM_CFG = [
 
 export const AboutSection = () => {
   const sectionRef = useRef(null);
-  const bgRef = useRef(null);
   const textColRef = useRef(null);
   const photoColRef = useRef(null);
   const photoCardRef = useRef(null);
@@ -171,21 +170,12 @@ export const AboutSection = () => {
     let w = 800, h = 600, R = 32, cx = 400, cy = 72, L = 1000;
     let isMobile = false;
 
-    // Cached layout metrics for fallback parallax (avoids getBoundingClientRect during scroll)
-    let cachedSectionTop = 0;
-    let cachedSectionHeight = 600;
-    let cachedVh = window.innerHeight;
-
     // ─── Static geometry: thread, ball transform, beams — recomputed on resize
     function updateGeometry() {
       if (!section || !svg) return;
       const secRect = section.getBoundingClientRect();
       w = secRect.width; h = secRect.height;
       if (w <= 0 || h <= 0) return;
-
-      cachedSectionTop = secRect.top + window.scrollY;
-      cachedSectionHeight = h;
-      cachedVh = window.innerHeight;
 
       svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
       R = Math.max(26, Math.min(w * 0.024, 48));
@@ -253,51 +243,9 @@ export const AboutSection = () => {
     const onWindowResize = () => updateGeometry();
     window.addEventListener('resize', onWindowResize, { passive: true });
 
-    // Check if the browser natively supports GPU compositor-driven CSS view-timeline
-    const supportsCssViewTimeline =
-      typeof CSS !== 'undefined' &&
-      typeof CSS.supports === 'function' &&
-      CSS.supports('animation-timeline', 'view()');
-
-    let cleanupScroll = null;
-    const bgEl = bgRef.current;
-    // Only attach a JS scroll listener if CSS view-timeline is NOT supported
-    if (!supportsCssViewTimeline && bgEl && section) {
-      let ticking = false;
-      const updateParallaxFallback = () => {
-        if (!bgEl) return;
-        const scrollY = window.scrollY;
-        const rectTop = cachedSectionTop - scrollY;
-        const rectBottom = rectTop + cachedSectionHeight;
-        if (rectBottom > -200 && rectTop < cachedVh + 200) {
-          const totalDist = cachedVh + cachedSectionHeight;
-          const progress = (cachedVh - rectTop) / totalDist;
-          const shiftY = (progress - 0.5) * 360;
-          bgEl.style.transform = `translate3d(0, ${shiftY.toFixed(2)}px, 0)`;
-        }
-      };
-
-      const onScroll = () => {
-        if (!ticking) {
-          window.requestAnimationFrame(() => {
-            updateParallaxFallback();
-            ticking = false;
-          });
-          ticking = true;
-        }
-      };
-
-      window.addEventListener('scroll', onScroll, { passive: true });
-      updateParallaxFallback();
-      cleanupScroll = () => {
-        window.removeEventListener('scroll', onScroll);
-      };
-    }
-
     return () => {
       io.disconnect();
       window.removeEventListener('resize', onWindowResize);
-      if (cleanupScroll) cleanupScroll();
       resizeObserver.disconnect();
     };
   }, []);
@@ -307,20 +255,15 @@ export const AboutSection = () => {
       ref={sectionRef}
       id="about"
       aria-label="About Boche Club Bangalore - Craft Beer and Nightlife on Brigade Road"
-      className="about-section-timeline relative overflow-clip w-full bg-[#08090C] text-white pt-20 sm:pt-24 pb-20 sm:pb-28 scroll-mt-20 [isolation:isolate]"
+      className="relative overflow-clip w-full bg-[#08090C] text-white pt-20 sm:pt-24 pb-20 sm:pb-28 scroll-mt-20 [isolation:isolate]"
     >
       {/* 
-        1. Dimmed Responsive Background Image with Parallax Bleed
-        - Uses overflow-clip instead of overflow-hidden so CSS view-timeline binds to root viewport
-        - Driven 100% on the GPU compositor thread via CSS animation-timeline: --about-view
+        1. Dimmed Responsive Background Image
+        - Portrait version for mobile devices (< 768px)
+        - Wide version for desktop and wide screens (>= 768px)
       */}
       <div className="absolute inset-0 z-0 pointer-events-none overflow-clip select-none" aria-hidden="true">
-        {/* Parallax wrapper with 208px vertical bleed to ensure smooth, seamless motion without edge clipping */}
-        <div
-          ref={bgRef}
-          className="about-parallax-bg absolute -top-52 -bottom-52 inset-x-0 w-full h-[calc(100%+416px)] pointer-events-none select-none"
-          style={{ willChange: 'transform', backfaceVisibility: 'hidden' }}
-        >
+        <div className="absolute inset-0 w-full h-full pointer-events-none select-none">
           <picture className="w-full h-full block">
             {/* Portrait version for mobiles (< 768px): 1080 x 2268 tall aspect ratio */}
             <source
@@ -490,23 +433,6 @@ export const AboutSection = () => {
 
       {/* CSS Keyframes for Neon Flicker, Lasers & Disco Ball */}
       <style>{`
-        /* 100% GPU Compositor-Synchronized Scroll Parallax (Zero Jitter on Fast Scroll) */
-        @keyframes about-parallax-shift {
-          from {
-            transform: translate3d(0, -180px, 0);
-          }
-          to {
-            transform: translate3d(0, 180px, 0);
-          }
-        }
-        @supports (animation-timeline: view()) {
-          .about-parallax-bg {
-            animation: about-parallax-shift linear both;
-            animation-timeline: view();
-            animation-range: entry 0% exit 100%;
-          }
-        }
-
         @keyframes neon-flicker {
           0%, 19%, 21%, 23%, 100% { opacity: 1; }
           20%, 22% { opacity: 0.42; }
