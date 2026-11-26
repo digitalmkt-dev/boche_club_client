@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+@theme {
+  /* Font Families */
+  --font-serif: "Cinzel", Georgia, serif;
+  --font-sans: "Outfit", system-ui, -apple-system, sans-serif;
+  --font-display: "Syne", sans-serif;
+  --font-heading: "Syne", sans-serif;
+  --font-script: "Parisienne", cursive;
+
+  /* Theme Colors - Base Obsidian / Dark Luxury */
+  --color-obsidian-950: #060709;
+  --color-obsidian-900: #0B0C10;
+  --color-obsidian-850: #101217;
+  --color-obsidian-800: #171A21;
+  --color-obsidian-750: #1F232D;
+  --color-obsidian-700: #2B303D;
+
+  /* Brewery Palette (Warm amber, copper, malt, vintage gold) */
+  --color-brewery-amber: #F59E0B;
+  --color-brewery-amber-hover: #D97706;
+  --color-brewery-copper: #EA580C;
+  --color-brewery-brass: #B45309;
+  --color-brewery-gold: #E5B869;
+  --color-brewery-warm-white: #FEF3C7;
+  --color-brewery-card: #15120E;
+  --color-brewery-border: rgba(245, 158, 11, 0.2);
+
+  /* Club Palette (Neon Crimson & Club Red matching official logo) */
+  --color-club-red: #EF4444;
+  --color-club-red-hover: #DC2626;
+  --color-club-crimson: #B91C1C;
+  --color-club-rose: #F43F5E;
+  --color-club-purple: #EF4444;
+  --color-club-card: #160B0C;
+  --color-club-border: rgba(239, 68, 68, 0.28);
+
+  /* Shared Brand Accents */
+  --color-brand-gold: #E5B869;
+  --color-brand-gold-glow: rgba(229, 184, 105, 0.25);
+  --color-brand-muted: #94A3B8;
+  --color-brand-light: #F8FAFC;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    color: var(--color-brand-light);
+    background-color: var(--color-obsidian-900);
+  }
+
+  /* Smooth scroll for link navigation without hijacking touchpad inertia */
+  html:focus-within {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100vh;
+    overflow-x: clip;
+  }
+
+  /* Universal heading font for all headings other than hero brand title */
+  h2, h3, h4, h5, h6, .font-heading {
+    font-family: var(--font-heading);
+  }
+
+  /* Custom subtle scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0B0C10;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2B303D;
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #E5B869;
+  }
+}
+
+/* Glassmorphism & Glow Utilities */
+.glass-panel {
+  background: rgba(16, 18, 23, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-panel-brewery {
+  background: rgba(21, 18, 14, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.glass-panel-club {
+  background: rgba(22, 11, 12, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+}
+
+.glow-brewery {
+  box-shadow: 0 0 25px rgba(245, 158, 11, 0.25);
+}
+
+.glow-club {
+  box-shadow: 0 0 25px rgba(239, 68, 68, 0.35);
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #FFF0D4 0%, #E5B869 50%, #B45309 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-club {
+  background: linear-gradient(135deg, #FFF1F2 0%, #F87171 40%, #EF4444 70%, #B91C1C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Official Logo Club Neon Glow */
+.neon-red-glow {
+  color: #FFF6CC;
+  text-shadow:
+    0 0 3px #FFA3A3,
+    0 0 8px #FF3B3B,
+    0 0 16px #EF4444,
+    0 0 30px rgba(220, 38, 38, 0.8),
+    0 0 50px rgba(185, 28, 28, 0.5);
+}
+
+/* Official Logo Club Neon Script */
+.club-neon-text {
+  font-family: var(--font-script), "Parisienne", cursive;
+  color: #FFF6CC;
+  text-shadow:
+    0 0 3px #FFA3A3,
+    0 0 8px #FF3B3B,
+    0 0 16px #EF4444,
+    0 0 30px rgba(220, 38, 38, 0.8),
+    0 0 50px rgba(185, 28, 28, 0.5);
+}
