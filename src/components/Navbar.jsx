@@ -24,11 +24,12 @@ export const Navbar = () => {
         'hero',
         'about',
         'experiences',
-        'club',
-        'flavours',
-        'food-and-drinks',
         'shkesbierre',
         'brewery',
+        'club',
+        'fine-dining',
+        'flavours',
+        'food-and-drinks',
         'group-booking',
         'group-bookings',
         'reservations',
@@ -74,13 +75,12 @@ export const Navbar = () => {
   return (
     <header
       id="main-navbar"
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? 'bg-[#0B0C10]/95 backdrop-blur-xl shadow-2xl shadow-black/80 py-2 sm:py-2.5'
-          : 'bg-gradient-to-b from-[#07080B]/75 via-[#07080B]/30 to-transparent py-2.5 sm:py-3.5'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+        ? 'bg-[#0B0C10]/95 backdrop-blur-xl shadow-2xl shadow-black/80 py-2 sm:py-2.5'
+        : 'bg-gradient-to-b from-[#07080B]/75 via-[#07080B]/30 to-transparent py-2.5 sm:py-3.5'
+        }`}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1640px] mx-auto w-full px-5 sm:px-8 lg:px-12 xl:px-16">
         <div className="flex items-center justify-between">
           {/* Brand Logo - Prominent Header Sizing */}
           <Logo
@@ -99,9 +99,14 @@ export const Navbar = () => {
               const isActive =
                 activeSection === target ||
                 (target === 'about' && activeSection === 'about') ||
-                (target === 'experiences' && (activeSection === 'experiences' || activeSection === 'club')) ||
+                (target === 'experiences' &&
+                  (activeSection === 'experiences' ||
+                    activeSection === 'shkesbierre' ||
+                    activeSection === 'brewery' ||
+                    activeSection === 'club' ||
+                    activeSection === 'fine-dining')) ||
                 ((target === 'flavours' || target === 'food-and-drinks') &&
-                  (activeSection === 'flavours' || activeSection === 'food-and-drinks' || activeSection === 'shkesbierre' || activeSection === 'brewery')) ||
+                  (activeSection === 'flavours' || activeSection === 'food-and-drinks')) ||
                 ((target === 'group-booking' || target === 'group-bookings') &&
                   (activeSection === 'group-booking' || activeSection === 'group-bookings' || activeSection === 'reservations')) ||
                 (target === 'ambiance' && (activeSection === 'ambiance' || activeSection === 'gallery')) ||
@@ -112,11 +117,10 @@ export const Navbar = () => {
                 <a
                   key={link.href}
                   href={link.href}
-                  className={`relative px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-xs xl:text-sm font-medium tracking-wide transition-all duration-200 rounded-lg group whitespace-nowrap ${
-                    isActive
-                      ? 'text-white'
-                      : 'text-slate-300 hover:text-white'
-                  }`}
+                  className={`relative px-2.5 xl:px-3.5 py-1.5 xl:py-2 text-xs xl:text-sm font-medium tracking-wide transition-all duration-200 rounded-lg group whitespace-nowrap ${isActive
+                    ? 'text-white'
+                    : 'text-slate-300 hover:text-white'
+                    }`}
                 >
                   <span className="relative z-10 flex items-center gap-1.5">
                     {link.label}
@@ -136,11 +140,10 @@ export const Navbar = () => {
 
                   {/* Subtle dual-accent bottom bar on hover */}
                   <span
-                    className={`absolute bottom-0 left-2.5 right-2.5 h-[2px] rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ${
-                      isClubLink
-                        ? 'bg-gradient-to-r from-red-500 to-rose-600'
-                        : 'bg-gradient-to-r from-amber-400 to-amber-600'
-                    }`}
+                    className={`absolute bottom-0 left-2.5 right-2.5 h-[2px] rounded-full scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ${isClubLink
+                      ? 'bg-gradient-to-r from-red-500 to-rose-600'
+                      : 'bg-gradient-to-r from-amber-400 to-amber-600'
+                      }`}
                   />
                 </a>
               );

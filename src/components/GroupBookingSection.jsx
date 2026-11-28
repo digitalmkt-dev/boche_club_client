@@ -12,7 +12,7 @@ const GROUP_BOOKING_CARDS = [
       'Make every milestone unforgettable—birthdays, anniversaries, reunions, farewells, kitty parties, and private DJ & karaoke nights in the heart of Bangalore.',
     accent: 'crimson',
     spanClass: 'md:col-span-3',
-    aspectClass: 'aspect-[16/9]',
+    aspectClass: 'aspect-[16/9] lg:aspect-[2/1] xl:aspect-[21/10]',
     objectPosition: 'object-[center_30%]',
   },
   {
@@ -24,7 +24,7 @@ const GROUP_BOOKING_CARDS = [
       'From executive team dinners and office lunches to product launches, offsites, and Friday mixers—tailored hospitality for Bangalore’s corporate teams.',
     accent: 'gold',
     spanClass: 'md:col-span-3',
-    aspectClass: 'aspect-[16/9]',
+    aspectClass: 'aspect-[16/9] lg:aspect-[2/1] xl:aspect-[21/10]',
     objectPosition: 'object-center',
   },
   {
@@ -36,7 +36,7 @@ const GROUP_BOOKING_CARDS = [
       'Dedicated private party rooms featuring comfortable seating, custom celebration decor, private sound controls, and effortless food and drinks for your group.',
     accent: 'crimson',
     spanClass: 'md:col-span-2',
-    aspectClass: 'aspect-[3/2]',
+    aspectClass: 'aspect-[3/2] lg:aspect-[16/10]',
     objectPosition: 'object-center',
   },
   {
@@ -48,7 +48,7 @@ const GROUP_BOOKING_CARDS = [
       'Abundant chef-curated buffets, sizzling starters, hearty main courses, and indulgent desserts crafted for groups—with flexible add-on drink options available.',
     accent: 'gold',
     spanClass: 'md:col-span-2',
-    aspectClass: 'aspect-[3/2]',
+    aspectClass: 'aspect-[3/2] lg:aspect-[16/10]',
     objectPosition: 'object-center',
   },
   {
@@ -60,7 +60,7 @@ const GROUP_BOOKING_CARDS = [
       'Customize your entertainment for group bookings—curated music, vibes, and event setups tailored to match the energy of your celebration.',
     accent: 'crimson',
     spanClass: 'md:col-span-2',
-    aspectClass: 'aspect-[3/2]',
+    aspectClass: 'aspect-[3/2] lg:aspect-[16/10]',
     objectPosition: 'object-center',
   },
 ];
@@ -80,42 +80,27 @@ export const GroupBookingSection = () => {
     <section
       id="group-booking"
       aria-label="Group Booking & Corporate Events at Boche Club Bangalore"
-      className="relative overflow-clip w-full bg-[#08090C] text-white py-20 sm:py-28 border-t border-white/10 scroll-mt-20"
+      className="relative overflow-clip w-full bg-[#08090C] text-white py-20 sm:py-28 scroll-mt-20"
     >
       {/* Anchor aliases for seamless navigation from Hero CTA & navbar links */}
       <span id="group-bookings" className="absolute -top-20" aria-hidden="true" />
       <span id="reservations" className="absolute -top-20" aria-hidden="true" />
 
-      {/* 1. Atmospheric Dark Club Background with Vignettes */}
-      <div className="absolute inset-0 z-0 pointer-events-none select-none overflow-clip" aria-hidden="true">
-        <img
-          src="/images/group-booking/group-booking-bg.webp"
-          alt=""
-          loading="lazy"
-          decoding="async"
-          draggable={false}
-          className="w-full h-full object-cover object-center opacity-60 brightness-[0.65] contrast-[1.08]"
-        />
+      {/* Clean Full-Bleed Dark Gradient Background (no black edge overlays) */}
+      <div
+        className="absolute inset-0 z-0 pointer-events-none select-none"
+        aria-hidden="true"
+        style={{
+          background:
+            'radial-gradient(ellipse 65% 50% at 18% 20%, rgba(255, 23, 68, 0.13) 0%, transparent 65%), radial-gradient(ellipse 65% 50% at 82% 78%, rgba(245, 184, 46, 0.11) 0%, transparent 65%), linear-gradient(135deg, #161018 0%, #121017 50%, #181312 100%)',
+        }}
+      />
 
-        {/* Subtle Club Color Accent Wash (Crimson Left + Warm Gold Right) */}
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background:
-              'radial-gradient(ellipse 65% 45% at 20% 10%, rgba(255, 23, 68, 0.18) 0%, transparent 65%), radial-gradient(ellipse 60% 45% at 82% 85%, rgba(245, 184, 46, 0.14) 0%, transparent 65%)',
-          }}
-        />
-
-        {/* Dark Contrast Veil & Seamless Top/Bottom Edge Vignettes */}
-        <div className="absolute inset-0 bg-[#08090C]/45 pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#08090C] via-[#08090C]/20 to-[#08090C] pointer-events-none" />
-      </div>
-
-      <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-[1640px] mx-auto w-full px-5 sm:px-8 lg:px-12 xl:px-16">
         {/* Section Header */}
-        <div className="max-w-3xl mx-auto text-center mb-12 sm:mb-16">
+        <div className="max-w-3xl mx-auto text-center mb-10 sm:mb-12">
           <div
-            className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#08090C]/90 text-[#f5b82e] text-[11px] font-bold tracking-widest uppercase select-none border-[1.2px] border-[#ff1744] mb-4"
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#08090C]/90 text-[#f5b82e] text-[11px] sm:text-xs font-bold tracking-widest uppercase select-none border-[1.2px] border-[#ff1744] mb-4"
             style={{
               boxShadow: '0 0 10px rgba(255, 23, 68, 0.4), inset 0 0 6px rgba(255, 23, 68, 0.18)',
             }}
@@ -124,7 +109,7 @@ export const GroupBookingSection = () => {
             <span>Group Booking</span>
           </div>
 
-          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
+          <h2 className="font-heading text-3xl sm:text-4xl lg:text-5xl xl:text-[3.4rem] font-bold tracking-tight text-white leading-tight">
             Celebrate Big at{' '}
             <span style={{ color: '#f5b82e' }}>Boche Club</span>{' '}
             <span
@@ -140,17 +125,17 @@ export const GroupBookingSection = () => {
           </h2>
 
           <div
-            className="w-[74px] h-[2px] bg-[#ffe0e5] mx-auto mt-4 mb-5 rounded-full"
+            className="w-[80px] h-[2px] bg-[#ffe0e5] mx-auto mt-4 mb-5 rounded-full"
             style={{ boxShadow: '0 0 6px #ff1744, 0 0 14px #ff1744' }}
           />
 
-          <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base lg:text-lg text-slate-300 leading-relaxed max-w-3xl mx-auto">
             We can host your guests for any occasion ranging from anniversaries, birthdays, reunions, get-togethers, kitty parties, farewells, team dinners, private karaoke parties, DJ &amp; dance parties, romantic rooftop dining and more.
           </p>
         </div>
 
         {/* 5-Card Asymmetric Bento Grid: 2 Large Hero Cards on Row 1 + 3 Feature Cards on Row 2 */}
-        <div className="grid grid-cols-1 md:grid-cols-6 gap-5 lg:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-6 gap-5 lg:gap-7">
           {GROUP_BOOKING_CARDS.map((card) => {
             const isGold = card.accent === 'gold';
 

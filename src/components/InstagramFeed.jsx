@@ -80,119 +80,134 @@ export const InstagramFeed = () => {
   return (
     <section
       id="ambiance"
-      className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto border-t border-white/5 scroll-mt-20 relative"
+      className="relative overflow-clip w-full py-16 sm:py-20 scroll-mt-20"
       aria-label="Instagram Feed Grid and Ambiance"
     >
+      {/* Smooth Plum-Rose-Obsidian Gradient Background (no black edge overlays) */}
+      <div
+        className="absolute inset-0 pointer-events-none select-none"
+        aria-hidden="true"
+        style={{
+          background:
+            'radial-gradient(ellipse 70% 55% at 25% 25%, rgba(168, 85, 247, 0.11) 0%, transparent 68%), radial-gradient(ellipse 65% 55% at 78% 75%, rgba(236, 72, 153, 0.10) 0%, transparent 68%), linear-gradient(135deg, #140F1C 0%, #18111E 50%, #110E17 100%)',
+        }}
+      />
+
       <span id="gallery" className="absolute -top-20" aria-hidden="true" />
-      {/* Header Profile Bar */}
-      <div className="flex flex-col items-center text-center mb-6 sm:mb-8">
-        {/* Instagram Brand Pill */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-amber-500/10 border border-pink-500/30 text-pink-300 text-xs font-semibold uppercase tracking-wider mb-4 shadow-lg shadow-pink-500/5">
-          <InstagramIcon className="w-4 h-4 text-pink-400" />
-          <span>Instagram Feed</span>
-        </div>
-
-        {/* Minimal Profile Bar */}
-        <div className="flex items-center justify-between gap-4 p-3 sm:p-3.5 rounded-2xl bg-[#0D0F14]/90 border border-white/10 backdrop-blur-md max-w-sm w-full shadow-xl">
-          <div className="flex items-center gap-3 text-left">
-            {/* Story Gradient Ring */}
-            <div className="relative p-[2px] rounded-full bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] shadow-md shadow-pink-500/20">
-              <div className="h-10 w-10 rounded-full overflow-hidden bg-black p-1 flex items-center justify-center">
-                <img
-                  src="/logo.png"
-                  alt="Boche Shakesbierre Profile"
-                  className="w-full h-full object-contain"
-                />
-              </div>
-            </div>
-
-            <div>
-              <div className="flex items-center gap-1.5">
-                <span className="font-semibold text-white text-sm tracking-wide">
-                  boche.shakesbierre
-                </span>
-                <span className="h-1.5 w-1.5 rounded-full bg-pink-400" />
-              </div>
-              <p className="text-[11px] text-slate-400">
-                Brewery • Dining • Club
-              </p>
-            </div>
+      <div className="relative z-10 max-w-[1640px] mx-auto w-full px-5 sm:px-8 lg:px-12 xl:px-16 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 xl:gap-16 items-center">
+        {/* Left Column on Desktop (Top on Mobile): Brand Pill, Heading, Profile Card & CTA */}
+        <div className="lg:col-span-4 flex flex-col items-center lg:items-start text-center lg:text-left space-y-5">
+          {/* Instagram Brand Pill */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-purple-500/10 via-pink-500/10 to-amber-500/10 border border-pink-500/30 text-pink-300 text-xs font-semibold uppercase tracking-wider shadow-lg shadow-pink-500/5">
+            <InstagramIcon className="w-4 h-4 text-pink-400" />
+            <span>Instagram Feed</span>
           </div>
 
-          <a
-            href={profileUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F77737] hover:opacity-90 transition-transform hover:scale-105 active:scale-95 shadow-md shadow-pink-600/25"
-            aria-label={`Follow ${handle} on Instagram`}
-          >
-            <span>Follow</span>
-          </a>
-        </div>
-      </div>
+          <div>
+            <h2 className="font-heading text-3xl sm:text-4xl xl:text-5xl font-bold tracking-tight leading-tight text-white">
+              Inside the{' '}
+              <span className="text-[#f5b82e]">Boche Vibe</span>
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-slate-300 leading-relaxed max-w-md">
+              Catch our latest weekend DJ nights, fresh small-batch pours, and live moments straight from Brigade Road.
+            </p>
+          </div>
 
-      {/* Pure Media 3x3 Grid - 3:4 Aspect Ratio Format */}
-      <div className="grid grid-cols-3 gap-2 sm:gap-3 md:gap-4 rounded-2xl overflow-hidden p-2 sm:p-3 bg-[#090B0E] border border-white/10 shadow-2xl shadow-black/80">
-        {sharedPosts.map((item) => (
-          <a
-            key={item.id}
-            href={item.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group relative aspect-[3/4] w-full overflow-hidden bg-[#12141A] cursor-pointer block rounded-lg sm:rounded-xl"
-            aria-label="Open post on Instagram"
-          >
-            {/* Actual media from the shared link - strictly centered */}
-            <img
-              src={item.image}
-              alt="Boche Shakesbierre Instagram media"
-              className="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-108"
-              loading="lazy"
-            />
-
-            {/* Reel Icon on video posts (just like Instagram's native feed) */}
-            {item.type === 'reel' && (
-              <div className="absolute top-2 right-2 z-10 p-1 sm:p-1.5 rounded-md bg-black/50 backdrop-blur-sm text-white/95 group-hover:opacity-0 transition-opacity duration-200">
-                <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-white text-white" />
+          {/* Minimal Profile Bar */}
+          <div className="flex items-center justify-between gap-4 p-3.5 rounded-2xl bg-[#0D0F14]/90 border border-white/10 backdrop-blur-md max-w-sm w-full shadow-xl">
+            <div className="flex items-center gap-3 text-left">
+              {/* Story Gradient Ring */}
+              <div className="relative p-[2px] rounded-full bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] shadow-md shadow-pink-500/20">
+                <div className="h-10 w-10 rounded-full overflow-hidden bg-black p-1 flex items-center justify-center">
+                  <img
+                    src="/logo.png"
+                    alt="Boche Shakesbierre Profile"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
               </div>
-            )}
 
-            {/* Clean Native Hover Overlay */}
-            <div className="absolute inset-0 z-20 bg-black/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-2 text-white">
-              <div className="p-2.5 rounded-full bg-white/15 backdrop-blur-md">
-                <InstagramIcon className="w-5 h-5 text-white" />
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <span className="font-semibold text-white text-sm tracking-wide">
+                    boche.shakesbierre
+                  </span>
+                  <span className="h-1.5 w-1.5 rounded-full bg-pink-400" />
+                </div>
+                <p className="text-[11px] text-slate-400">
+                  Brewery • Dining • Club
+                </p>
               </div>
-              <span className="text-[11px] sm:text-xs font-semibold tracking-wider uppercase text-pink-300">
-                View On Instagram ↗
-              </span>
             </div>
-          </a>
-        ))}
-      </div>
 
-      {/* Button Redirecting to the Instagram Profile */}
-      <div className="mt-8 sm:mt-10 flex flex-col items-center justify-center text-center">
-        <a
-          href={profileUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="group relative inline-flex items-center justify-center gap-2.5 px-8 py-3.5 sm:py-4 rounded-2xl text-sm sm:text-base font-bold uppercase tracking-wider text-white overflow-hidden shadow-2xl shadow-pink-600/30 transition-all duration-300 hover:scale-[1.03] hover:shadow-pink-600/50 focus:outline-none focus:ring-2 focus:ring-pink-500"
-        >
-          {/* Official Instagram Gradient */}
-          <div className="absolute inset-0 bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F77737] transition-all duration-300 group-hover:brightness-110" />
-          <div className="absolute inset-0 bg-white/15 opacity-0 group-hover:opacity-100 transition-opacity" />
+            <a
+              href={profileUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold uppercase tracking-wider text-white bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F77737] hover:opacity-90 transition-transform hover:scale-105 active:scale-95 shadow-md shadow-pink-600/25"
+              aria-label={`Follow ${handle} on Instagram`}
+            >
+              <span>Follow</span>
+            </a>
+          </div>
 
-          {/* Label */}
-          <InstagramIcon className="relative z-10 w-5 h-5 text-white" />
-          <span className="relative z-10">
-            View More on Instagram {handle}
-          </span>
-          <ExternalLink className="relative z-10 w-4 h-4 text-white/90 transition-transform group-hover:translate-x-1" />
-        </a>
+          {/* Primary Instagram CTA */}
+          <div className="pt-1 flex flex-col items-center lg:items-start">
+            <a
+              href={profileUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative inline-flex items-center justify-center gap-2.5 px-7 py-3.5 rounded-2xl text-xs sm:text-sm font-bold uppercase tracking-wider text-white overflow-hidden shadow-2xl shadow-pink-600/30 transition-all duration-300 hover:scale-[1.03] hover:shadow-pink-600/50 focus:outline-none focus:ring-2 focus:ring-pink-500"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-[#833AB4] via-[#FD1D1D] to-[#F77737] transition-all duration-300 group-hover:brightness-110" />
+              <div className="absolute inset-0 bg-white/15 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <InstagramIcon className="relative z-10 w-4 h-4 text-white" />
+              <span className="relative z-10">View More on Instagram</span>
+              <ExternalLink className="relative z-10 w-4 h-4 text-white/90 transition-transform group-hover:translate-x-1" />
+            </a>
+            <p className="mt-2.5 text-xs text-slate-400">
+              Click any post to view it directly on Instagram
+            </p>
+          </div>
+        </div>
 
-        <p className="mt-2.5 text-xs text-slate-400">
-          Click any post to view it directly on Instagram
-        </p>
+        {/* Right Column on Desktop (Bottom on Mobile): Crisp 3x3 Media Grid */}
+        <div className="lg:col-span-8">
+          <div className="grid grid-cols-3 gap-2.5 sm:gap-3.5 md:gap-4 rounded-2xl overflow-hidden p-2.5 sm:p-3.5 bg-[#090B0E] border border-white/10 shadow-2xl shadow-black/80">
+            {sharedPosts.map((item) => (
+              <a
+                key={item.id}
+                href={item.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative aspect-[3/4] sm:aspect-[4/5] w-full overflow-hidden bg-[#12141A] cursor-pointer block rounded-lg sm:rounded-xl"
+                aria-label="Open post on Instagram"
+              >
+                <img
+                  src={item.image}
+                  alt="Boche Shakesbierre Instagram media"
+                  className="h-full w-full object-cover object-center transition-transform duration-500 ease-out group-hover:scale-108"
+                  loading="lazy"
+                />
+
+                {item.type === 'reel' && (
+                  <div className="absolute top-2 right-2 z-10 p-1 sm:p-1.5 rounded-md bg-black/50 backdrop-blur-sm text-white/95 group-hover:opacity-0 transition-opacity duration-200">
+                    <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-white text-white" />
+                  </div>
+                )}
+
+                <div className="absolute inset-0 z-20 bg-black/60 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col items-center justify-center gap-2 text-white">
+                  <div className="p-2.5 rounded-full bg-white/15 backdrop-blur-md">
+                    <InstagramIcon className="w-5 h-5 text-white" />
+                  </div>
+                  <span className="text-[11px] sm:text-xs font-semibold tracking-wider uppercase text-pink-300">
+                    View On Instagram ↗
+                  </span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

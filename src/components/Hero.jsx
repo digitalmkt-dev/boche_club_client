@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { ChevronDown, ArrowRight } from 'lucide-react';
-import { CraftPourIcon, DJLineupsIcon, VIPBoothsIcon, FoodPairingIcon } from './HighlightIcons';
 
 /**
  * HLS source sets — portrait for mobile (<768px), wide for tablet/desktop.
@@ -209,14 +208,11 @@ export const Hero = () => {
           aria-hidden="true"
         />
 
-        {/* Primary dark overlay */}
-        <div className="absolute inset-0 bg-black/25" />
+        {/* Even dark readability scrim over video (no bottom black fade band) */}
+        <div className="absolute inset-0 bg-black/35" />
 
-        {/* Cinematic bottom-to-top gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#07080B] via-[#07080B]/15 to-transparent" />
-
-        {/* Smooth top gradient under navbar — blends seamlessly into the full-bleed hero video */}
-        <div className="absolute inset-x-0 top-0 h-36 sm:h-32 bg-gradient-to-b from-[#07080B]/65 via-[#07080B]/20 to-transparent" />
+        {/* Subtle top scrim under navbar */}
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-black/55 to-transparent" />
 
         {/* Warm amber atmosphere glow — left */}
         <div
@@ -232,7 +228,7 @@ export const Hero = () => {
       </div>
 
       {/* ── Main Content ───────────────────────────────────────────────────── */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-auto w-full text-center">
+      <div className="relative z-10 max-w-[1640px] mx-auto w-full px-5 sm:px-8 lg:px-12 xl:px-16 my-auto text-center">
 
         {/* Venue Identity Pill */}
         <div className="inline-flex items-center gap-2 px-3 sm:px-4 py-1 rounded-full bg-black/60 border border-white/15 backdrop-blur-md shadow-xl shadow-black/50 mb-3 sm:mb-4">
@@ -289,30 +285,9 @@ export const Hero = () => {
         </div>
       </div>
 
-      {/* ── Bottom Strip ───────────────────────────────────────────────────── */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full pt-2 sm:pt-3">
-        {/* Highlights Bar */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3 py-2.5 sm:py-3 px-3 sm:px-4 rounded-xl bg-[#0E1015]/80 backdrop-blur-md border border-white/10 text-slate-300 shadow-xl">
-          <div className="flex items-center gap-2.5 justify-center py-0.5">
-            <CraftPourIcon className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
-            <span className="font-medium text-[11px] sm:text-xs md:text-sm">Signature Craft Pours</span>
-          </div>
-          <div className="flex items-center gap-2.5 justify-center py-0.5">
-            <DJLineupsIcon className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
-            <span className="font-medium text-[11px] sm:text-xs md:text-sm">Top DJ Lineups</span>
-          </div>
-          <div className="flex items-center gap-2.5 justify-center py-0.5">
-            <VIPBoothsIcon className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
-            <span className="font-medium text-[11px] sm:text-xs md:text-sm">VIP Tables &amp; Booths</span>
-          </div>
-          <div className="flex items-center gap-2.5 justify-center py-0.5">
-            <FoodPairingIcon className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
-            <span className="font-medium text-[11px] sm:text-xs md:text-sm">Curated Food Pairing</span>
-          </div>
-        </div>
-
-        {/* Scroll Indicator */}
-        <div className="flex justify-center pt-2.5">
+      {/* ── Bottom Scroll Indicator ─────────────────────────────────────────── */}
+      <div className="relative z-10 max-w-[1640px] mx-auto w-full px-5 sm:px-8 lg:px-12 xl:px-16 pb-2">
+        <div className="flex justify-center">
           <a
             href="#about"
             className="group flex flex-col items-center gap-0.5 text-[10px] sm:text-[11px] uppercase tracking-widest text-slate-400 hover:text-amber-300 transition-colors"
